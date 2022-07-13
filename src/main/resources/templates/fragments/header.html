@@ -1,0 +1,54 @@
+
+<header id="header" xmlns:th="http://www.thymeleaf.org">
+    <div class="header-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-sm-6 col-6 header-top-left">
+                    <ul>
+                        <li><a href="/home">Visit Us</a></li>
+                        <li><a href="/flights">Buy Tickets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container main-menu">
+        <div class="row align-items-center justify-content-between d-flex">
+            <div id="logo">
+                <a href="/home"><img src="/img/mkdAirlogo.png" alt="" title="" /></a>
+            </div>
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/flights">Flights</a></li>
+                    <li><a href="/agencies" sec:authorize="hasRole('ROLE_ADMIN')">Agencies</a></li>
+                    <li><a href="/airplanes" sec:authorize="hasRole('ROLE_ADMIN')">Airplanes</a></li>
+                    <li><a href="/verification" sec:authorize="hasRole('ROLE_ADMIN')">Verification</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li  sec:authorize="isAuthenticated()">
+                        <i class="fa fa-user"></i>
+                        <a class="nav-link" href="/profile">
+                            <th:block th:if="${#request.getRemoteUser() != null}"
+                                      th:text="${#request.getRemoteUser()}"></th:block>
+                        </a>
+                    </li>
+                    <li  sec:authorize="isAuthenticated()">
+                        <a class="btn btn-success btn-sm ml-3" href="/ticket-cart">
+                            <i class="fa fa-shopping-cart"></i> Cart
+                        </a>
+                    </li>
+                    <li  sec:authorize="isAuthenticated()">
+                        <a class="btn btn-danger btn-sm ml-3" href="/logout">
+                            <i class="fa fa-sign-out"></i> Logout
+                        </a>
+                    </li>
+                    <li  sec:authorize="!isAuthenticated()">
+                        <a class="btn btn-primary btn-sm ml-3" href="/login">
+                            <i class="fa fa-sign-in"></i> Login
+                        </a>
+                    </li>
+                </ul>
+            </nav><!-- #nav-menu-container -->
+        </div>
+    </div>
+</header><!-- #header -->

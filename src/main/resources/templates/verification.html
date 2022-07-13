@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/pdf.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById("download")
+                .addEventListener("click", () => {
+                    const invoice = this.document.getElementById("invoice");
+                    console.log(invoice);
+                    console.log(window);
+                    let doc_width = 8.27+5;  // A4 measures 210 × 297 millimeters or 8.27 × 11.69 inches
+                    let doc_height = 11.69+1;
+                    let aspect = doc_height / doc_width;
+                    let dpi = 120; // targeting ~1200 window width
+                    let img_width = doc_width * dpi-50;
+                    let img_height = doc_height * dpi;
+                    let win_width = img_width;
+                    let win_height = img_height;
+
+                    // https://html2canvas.hertzen.com/configuration
+                    let html2canvasOpts = {
+                        scale: img_width/win_width,   // equals 1
+                        width: img_width,
+                        height: img_height,
+                        windowWidth: win_width,
+                        windowHeight: win_height,
+                    };
+
+                    // https://rawgit.com/MrRio/jsPDF/master/docs/jsPDF.html
+                    let jsPDFOpts = {
+                        orientation: 'portrait',
+                        unit: 'in',
+                        format: [doc_width, doc_height]
+                    };
+
+                    html2pdf().set({
+                        margin:       [0.01, 0.01, 0.01, 0.01],
+                        filename:     'mkdAirTicketDetails.pdf',
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  html2canvasOpts,
+                        jsPDF:        jsPDFOpts,
+                    }).from(invoice).save();
+                })
+        }
+    </script>
+    <style>
+        .logo{
+            width: 182px;
+            float: left;
+            margin-left: 39px;
+        }
+        .jumbotron-heading{
+            margin-right: 175px;
+        }
+
+        .line{
+            border-top: 6px solid lightblue;
+            height: 25px;
+            rotation: 90deg;
+        }
+        .price{
+            float: right;
+            margin-top: -158px;
+            margin-right: 134px;
+            background: lightgray;
+            border: 1px solid gray;
+            box-shadow: black;
+            width: 248px;
+        }
+
+        p{
+            font-size: 24px;
+            font-style: italic;
+        }
+        .to{
+            float: right;
+            margin-top: -95px;
+            margin-right: 514px;
+        }
+        .type{
+            float: right;
+            margin-top: -95px;
+            margin-right: 389px;
+        }
+        .bag{
+            float: right;
+            margin-top: -287px;
+            margin-right: 62px;
+        }
+        .surname{
+            float: right;
+            margin-top: -95px;
+            margin-right: 466px;
+        }
+        .phonenumber{
+            float: right;
+            margin-top: -95px;
+            margin-right: 387px;
+        }
+
+        #footer{
+            background: lightblue;
+        }
+
+        .footertext{
+            margin-left: 293px;
+        }
+        .pdflogo{
+            width: 65px;
+        }
+        #pdfspace{
+            margin-left: 444px;
+        }
+        .bagNokg{
+            height: 73px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <button class="btn btn-primary btn-lg" id="download"><img class="pdflogo" src="/img/pdflogo.jpg" > DOWNLOAD</button>
+
+            <a href="/home" class="btn btn-primary">Back to home</a>
+
+        </div>
+    </div>
+
+</div>
+<div class="card" id="invoice">
+    <div class="container mb-4">
+        <div class="col mb-3">
+            <div>
+                <section class="jumbotron text-center">
+                    <div class="container">
+                        <img class="logo" src="/img/mkdAirlogo.png">
+                        <h1 class="jumbotron-heading">BOARDING PASS</h1>
+                    </div>
+                </section>
+                <h3>Ticket Number</h3>
+                <p th:text="${order.getId()}"> </p>
+
+                <h2>FLIGHT INFORMATION</h2>
+                <h3>Flight Number</h3>
+                <p th:text="${order.getFlight().getId()}"></p>
+
+                <div class="line"></div>
+                <h3>From</h3>
+                <p th:text="${order.getFlight().getFromLocation()}"></p>
+                <div class="to">
+                    <h3>To</h3> <p th:text="${order.getFlight().getToLocation()}"></p>
+                </div>
+                <h3>Deperature date</h3> <p th:text="${order.getFlight().getDeparatureTime()}"></p>
+                <div class="type">
+                    <h3>Class type </h3> <p th:text="${order.getReservation().getClassesType()}"></p>
+                </div>
+                <h3>Normal Price</h3> <p th:text= "${order.getFlight().getPrice()} + '€' " ></p>
+                <div class="bag" th:if="${order.getFlight.getPrice() <= 50}">
+                    <h3>Bagging</h3> <img class="bagNokg" th:src="${bag}"/> <img th:src="${bagKG}"/>
+                </div>
+                <div class="line"></div>
+
+                <h2>PASSENGER DETAILS</h2>
+                <h3>Name</h3> <p th:text="${order.getReservation().getName()}"></p>
+                <div class="surname">
+                    <h3>Surname</h3> <p th:text="${order.getReservation().getSurname()}"></p>
+                </div>
+                <h3>Passport Number</h3> <p th:text="${order.getReservation().getNumberOfPassport()}"></p>
+                <div class="phonenumber">
+                    <h3>Phone Number</h3> <p th:text="${order.getReservation().getNumberOfPhone()}"></p>
+                </div>
+
+                <div class="line"></div>
+                <h2>PAYMENT DETAILS</h2>
+                <h3>Full Name</h3> <p th:text="${order.getPayment().getFullName()}"></p>
+                <h3>Card Number</h3> <p th:text="${order.getPayment().encodeCardNumber(order.getPayment().getCardNumber())}"></p>
+                <div class="price">
+                    <h3>Final Price</h3>
+                    <p th:if="${order.getFlight.getPrice() <= 50}" th:text="${order.getFlight().getFinalPrice(order.getReservation().getClassesType()) +
+                                        order.getReservation().getBaggingPrice()} + '€' ">
+                    <p th:if="${order.getFlight.getPrice() > 50}" th:text="${order.getFlight().getFinalPrice(order.getReservation().getClassesType())} + '€' ">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer" class="text-lightblue-50 mt-xl-5">
+        <div class="container">
+            <div class="footertext">
+                <h3>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;mkdAir</h3>
+                <h3>&emsp;&emsp;0000 Ticket City,Plane Pl,0000</h3>
+                <h3>+ 33 12 14 15 16 - email@mkdair.com</h3>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

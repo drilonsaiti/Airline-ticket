@@ -1,0 +1,113 @@
+<!-- start banner Area -->
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Flights
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+
+<br/>
+
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="col mb-3">
+        <div class="row">
+            <a href="/flights/add" class="btn btn-block btn-dark add-new-balloon" sec:authorize="hasRole('ROLE_ADMIN')">
+                Add new flights
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Departure Time</th>
+                        <th scope="col">Arrival ime</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Agency</th>
+                        <th scope="col">Plane</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Free seats</th>
+                        <th scope="col" sec:authorize="isAuthenticated()">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="flight : ${flights}">
+                        <td th:name="fromLocation" th:text="${flight.getFromLocation()}"></td>
+                        <td th:name="toLocation" th:text="${flight.getToLocation()}"></td>
+                        <td th:name="deptTime" th:text="${flight.getDeparatureTime()}"></td>
+                        <td th:name="arrTime" th:text="${flight.getArrival_time()}"></td>
+                        <td th:text="${flight.getDuration()}"></td>
+                        <td th:text="${flight.getAgency().getNameOfAgency()}"></td>
+                        <td th:text="${flight.getAirplane().getNameOfAirplane()}"></td>
+                        <td th:text="${flight.getPrice()}"></td>
+                        <td th:text="${flight.getTotal_seats()}"></td>
+
+                        <input id="idFlight" type="hidden" th:name="idFlight" th:value="${flight.getId()}">
+                        <td>
+
+                            <form th:action="@{'/flights/{id}/delete' (id=${flight.getId()})}"
+                                  th:method="POST" sec:authorize="hasRole('ROLE_ADMIN')">
+                                <button type="submit" class="btn btn-sm btn-danger delete-balloon"><i
+                                        class="fa fa-trash">Delete</i>
+                                </button>
+                            </form>
+
+
+                            <a th:href="@{'/flights/{id}/edit' (id=${flight.getId()})}"
+                               class="btn btn-info edit-balloon" sec:authorize="hasRole('ROLE_ADMIN')"><i
+                                    font-color="white" class="fa fa-edit">Edit</i></a>
+                            <div th:if="${flight.cantShow() == true}">
+                                <form th:action="@{'/reservation/setId'}"
+                                      th:method="POST" sec:authorize="hasRole('ROLE_USER')">
+                                    <input th:name="idFlight" type="hidden" id="selected-ballon"
+                                           th:value="${flight.getId()}">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-shopping-cart">
+                                        Buy</i>
+                                    </button>
+                                </form>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <nav style="font-size: 22px">
+        <ul th:if="${totalPages > 1}" class="list-inline pagination pagination-lg justify-content-center">
+            <div class="col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <li class="list-inline-item page-item">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/flights/page/' + ${i} + ${fromSearch != null ? '?fromSearch=' + fromSearch : ''}
+						+ ${toSearch != null ? '&toSearch=' + toSearch : ''} +  ${deptSearch != null ? '&deptSearch=' + deptSearch : ''}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+            </li>
+            <li class="list-inline-item page-item ">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/flights/page/' + ${currentPage + 1}}">Next</a>
+                <span class="list-inline-item " th:unless="${currentPage < totalPages}">Next</span>
+            </li>
+
+            <li class="list-inline-item page-item">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/flights/page/' + ${totalPages}}">Last</a>
+                <span class="list-inline-item " th:unless="${currentPage < totalPages}">Last</span>
+            </li>
+        </ul>
+    </nav>
+</div>
+

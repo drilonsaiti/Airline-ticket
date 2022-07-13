@@ -1,0 +1,99 @@
+
+
+<!-- start banner Area -->
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Settings
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+
+<br/>
+
+<div class="container text-center" >
+
+    <div class="container text-center">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">My profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+
+        </ul>
+    </div>
+    <br/>
+</div>
+
+<div class="container" xmlns:th="http://www.thymeleaf.org">
+
+    <section>
+        <form method="POST" th:action="@{'/profile/{username}' (username=${#request.getRemoteUser()})}">
+            <div class="form-group">
+                <label for="usernameOfUser">@username</label>
+                <input type="text"
+                       class="form-control"
+                       id="usernameOfUser"
+                       name="usernameOfUser"
+                       th:value="${user?.get().getUsername()}"
+                       required>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="nameOfUser">Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="nameOfUser"
+                       name="nameOfUser"
+                       th:value="${user?.get().getName()}"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="surnameOfUser">Surname</label>
+                <input type="text"
+                       class="form-control"
+                       id="surnameOfUser"
+                       name="surnameOfUser"
+                       th:value="${user?.get().getSurname()}"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="emailOfUser">Email</label>
+                <input type="text"
+                       class="form-control"
+                       id="emailOfUser"
+                       name="emailOfUser"
+                       th:value="${user?.get().getEmail()}"
+                       required>
+            </div>
+            <button  type="submit" class="btn btn-primary">Submit</button>
+            <a type="button" class="btn btn-primary" href="/profile">Back to profile</a>
+        </form>
+
+    </section>
+
+    <br/>
+    <h2>Delete your account</h2>
+    <form th:action="@{'/user/delete/{username}' (username=${#request.getRemoteUser()})}"
+          th:method="POST">
+        <button type="submit" class="btn btn-sm btn-danger "><i
+                class="fa fa-trash">Delete account</i>
+        </button>
+    </form>
+    <br/>
+</div>

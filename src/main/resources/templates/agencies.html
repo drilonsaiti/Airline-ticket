@@ -1,0 +1,95 @@
+
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Agencies
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br/>
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="col mb-3">
+        <div class="row">
+            <a href="/agencies/add" class="btn btn-block btn-dark">
+                Add new agency
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            <a th:href="@{'/agencies/page/' + ${currentPage} + '?sortField=nameOfAgency&sortDir=' + ${reverseSortDir}}">
+                                Name of Agency </a> </th>
+                        <th scope="col">
+                            <a th:href="@{'/agencies/page/' + ${currentPage} + '?sortField=country&sortDir=' + ${reverseSortDir}}">
+                                City</a></th>
+                        <th scope="col">
+                            <a th:href="@{'/agencies/page/' + ${currentPage} + '?sortField=city&sortDir=' + ${reverseSortDir}}">
+                                Country</a></th>
+                        <th scope="col">
+                            <a th:href="@{'/agencies/page/' + ${currentPage} + '?sortField=yearOfCreated&sortDir=' + ${reverseSortDir}}">
+                                Year of Created </a> </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="agency : ${agencies}">
+                        <td th:text="${agency.getNameOfAgency()}"></td>
+                        <td th:text="${agency.getCity()}"></td>
+                        <td th:text="${agency.getCountry()}"></td>
+                        <td th:text="${agency.getYearOfCreated()}"></td>
+
+                        <td>
+                            <form th:action="@{'/agencies/{id}/delete' (id=${agency.getId()})}"
+                                  th:method="POST">
+                                <button type="submit" class="btn btn-sm btn-danger delete-balloon"><i
+                                        class="fa fa-trash">Delete</i>
+                                </button>
+                            </form>
+
+                            <a th:href="@{'/agencies/{id}/edit' (id=${agency.getId()})}"
+                               class="btn btn-sm btn-info edit-balloon"><i class="fa fa-trash">Edit</i></a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <nav style="font-size: 22px">
+        <ul th:if = "${totalPages > 1}" class="list-inline pagination pagination-lg justify-content-center">
+            <div class = "col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <li class="list-inline-item page-item">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/agencies/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+            </li>
+            <li class="list-inline-item page-item">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/agencies/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                <span class="list-inline-item " th:unless="${currentPage < totalPages}">Next</span>
+            </li>
+
+            <li class="list-inline-item page-item">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/agencies/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                <span class="list-inline-item " th:unless="${currentPage < totalPages}">Last</span>
+            </li>
+
+    </ul>
+    </nav>
+</div>
+

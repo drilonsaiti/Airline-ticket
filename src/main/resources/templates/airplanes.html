@@ -1,0 +1,64 @@
+
+
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Airplanes
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br/>
+
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="col mb-3">
+        <div class="row">
+            <a href="/airplanes/add" class="btn btn-block btn-dark">
+                Add new airplane
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name of Airplane</th>
+                        <th scope="col">Year of Created</th>
+                        <th scope="col">Total seats</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="planes : ${airplanes}">
+                        <td th:text="${planes.getNameOfAirplane()}"></td>
+                        <td th:text="${planes.getYearOfCreated()}"></td>
+                        <td th:text="${planes.getTotal_seats()}"></td>
+
+                        <td>
+                            <form th:action="@{'/airplanes/{id}/delete' (id=${planes.getId()})}"
+                                  th:method="POST">
+                                <button type="submit" class="btn btn-sm btn-danger delete-balloon"><i
+                                        class="fa fa-trash">Delete</i>
+                                </button>
+                            </form>
+
+                            <a th:href="@{'/airplanes/{id}/edit' (id=${planes.getId()})}"
+                               class="btn btn-sm btn-info edit-balloon"><i class="fa fa-trash">Edit</i></a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

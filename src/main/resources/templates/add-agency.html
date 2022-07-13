@@ -1,0 +1,71 @@
+
+
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Add new agency
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="row">
+        <div class="col-md-5">
+            <form method="POST" th:action="@{'/agencies/{id}' (id=${agency?.getId()})}">
+                <div class="form-group">
+                    <label for="nameOfAgency">Name of Agency </label>
+                    <input type="text"
+                           class="form-control"
+                           id="nameOfAgency"
+                           name="nameOfAgency"
+                           th:value="${agency?.getNameOfAgency()}"
+                           required
+                           placeholder="Enter name of agency">
+                </div>
+
+                <div class="form-group">
+                    <label for="cityOfAgency">City of Agency</label>
+                    <input type="text"
+                           class="form-control"
+                           id="cityOfAgency"
+                           name="cityOfAgency"
+                           th:value="${agency?.getCity()}"
+                           required
+                           placeholder="Enter city">
+                </div>
+
+                <div class="form-group">
+                    <label for="countryOfAgency">Country of Agency</label>
+                    <input type="text"
+                           class="form-control"
+                           id="countryOfAgency"
+                           name="countryOfAgency"
+                           th:value="${agency?.getCountry()}"
+                           required
+                           placeholder="Enter country">
+                </div>
+
+                <div class="form-group">
+                    <label for="yearOfCreated">Year of Created</label>
+                    <input type="text"
+                           class="form-control"
+                           id="yearOfCreated"
+                           name="yearOfCreated"
+                           th:value="${agency?.getYearOfCreated()}"
+                           required
+                           placeholder="Enter year of created">
+                </div>
+
+
+                <button id="submit-from-add-balloon" type="submit" class="btn btn-primary">Submit</button>
+                <a type="button" class="btn btn-primary" href="/agencies">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+

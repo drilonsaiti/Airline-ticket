@@ -1,0 +1,137 @@
+
+
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Add new flight
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="row">
+        <div class="col-md-5">
+            <form method="POST" th:action="@{'/flights/{id}' (id=${flight?.id})}">
+                <div class="form-group">
+                    <label for="departureFrom">Departure from</label>
+                    <input type="text"
+                           class="form-control"
+                           id="departureFrom"
+                           name="departureFrom"
+                           th:value="${flight?.getFromLocation()}"
+                           required
+                           placeholder="Enter departure from">
+                </div>
+
+                <div class="form-group">
+                    <label for="departureTo">Departure to</label>
+                    <input type="text"
+                           class="form-control"
+                           id="departureTo"
+                           name="departureTo"
+                           th:value="${flight?.getToLocation()}"
+                           required
+                           placeholder="Enter departure to">
+                </div>
+
+                <div class="form-group">
+                    <label for="departureTime">Departure time</label>
+                    <input type="text"
+                           class="form-control"
+                           id="departureTime"
+                           name="departureTime"
+                           th:value="${flight?.getDeparatureTime()}"
+                           required
+                           placeholder="Enter departure time">
+                </div>
+
+                <div class="form-group">
+                    <label for="arrivalTime">Arrival time</label>
+                    <input type="text"
+                           class="form-control"
+                           id="arrivalTime"
+                           name="arrivalTime"
+                           th:value="${flight?.getArrival_time()}"
+                           required
+                           placeholder="Enter arrival time">
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration</label>
+                    <input type="text"
+                           class="form-control"
+                           id="duration"
+                           name="duration"
+                           th:value="${flight?.getDuration()}"
+                           required
+                           placeholder="Enter duration">
+                </div>
+
+
+                <div class="form-group">
+                    <label>Agency</label>
+                    <select id="agency" name="agency" class="form-control">
+                        <option th:if="${flight} != null"
+                                th:selected="${flight.getAgency() != null && flight.getAgency().getId() == agency.getId()}"
+                                th:each="agency : ${agencies}"
+                                th:value="${agency.getId()}"
+                                th:text="${agency.getNameOfAgency()}">
+                        </option>
+                        <option th:if="${flight} == null"
+                                th:each="agency : ${agencies}"
+                                th:value="${agency.getId()}"
+                                th:text="${agency.getNameOfAgency()}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Airplane</label>
+                    <select id="airplane" name="airplane" class="form-control">
+                        <option th:if="${flight} != null"
+                                th:selected="${flight.getAgency() != null && flight.getAirplane().getId() == airplane.getId()}"
+                                th:each="airplane : ${airplanes}"
+                                th:value="${airplane.getId()}"
+                                th:text="${airplane.getNameOfAirplane()}">
+                        </option>
+                        <option th:if="${flight} == null"
+                                th:each="airplane : ${airplanes}"
+                                th:value="${airplane.getId()}"
+                                th:text="${airplane.getNameOfAirplane()}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="text"
+                           class="form-control"
+                           id="price"
+                           name="price"
+                           th:value="${flight?.getPrice()}"
+                           required
+                           placeholder="Enter price">
+                </div>
+
+                <div class="form-group">
+                    <label for="seats">Total seats</label>
+                    <input type="text"
+                           class="form-control"
+                           id="seats"
+                           name="seats"
+                           th:value="${flight?.getTotal_seats()}"
+                           required
+                           placeholder="Enter total seats">
+                </div>
+
+                <button id="submit-from-add-balloon" type="submit" class="btn btn-primary">Submit</button>
+                <a type="button" class="btn btn-primary" href="/flights">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+

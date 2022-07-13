@@ -1,0 +1,82 @@
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Ticket cart
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org">
+    <br/>
+    <div class="row">
+        <div class="col-12">
+            <form th:action="@{'/ticket-cart/clear'}"
+                  th:method="POST">
+                <button type="submit" class="btn btn-sm btn-danger delete-balloon"><i
+                        class="fa fa-trash">Remove all tickets</i>
+                </button>
+            </form>
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Departure Time</th>
+                        <th scope="col">Arrival ime</th>
+
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+
+                        <th scope="col">Card number</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Download</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+
+                        <td th:text="${order.getFlight().getFromLocation()}"></td>
+                        <td th:text="${order.getFlight().getToLocation()}"></td>
+                        <td th:text="${order.getFlight().getDeparatureTime()}"></td>
+                        <td th:text="${order.getFlight().getArrival_time()}"></td>
+                        <td  th:text="${order.getReservation().getName()}"></td>
+                        <td  th:text="${order.getReservation().getSurname()}"></td>
+                        <td  th:text="${order.getPayment().encodeCardNumber(order.getPayment().getCardNumber())}"></td>
+                        <td th:text="${order.getFlight().getFinalPrice(order.getReservation().getClassesType()) +
+                                        order.getReservation().getBaggingPrice()}"></td>
+                        <td>
+                        <form th:action="@{'/ticket-cart/{id}/download' (id=${order.getId()})}"
+                              th:method="GET" th:if="${order.canDownload(order.getFlight().getDeparatureTime())}">
+                            <button  type="submit" class="btn btn-sm btn-primary delete-balloon"><i
+                                    class="fa fa-download" th:if="${order.canDownload(order.getFlight().getDeparatureTime())}">View and Download</i>
+                            </button>
+                        </form>
+
+                            <form th:action="@{'/ticket-cart/{id}/canceled' (id=${order.getId()})}"
+                                  th:method="POST" th:if="${order.canCancaled(order.getFlight().getDeparatureTime())}">
+                                <button  type="submit" class="btn btn-sm btn-danger delete-balloon"><i
+                                        class="fa fa-trash" th:if="${order.canCancaled(order.getFlight().getDeparatureTime())}">Canceled</i>
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+        <br/>
+        <a type="button" class="btn btn-primary" href="/flights">Back</a>
+    </form>
+</div>

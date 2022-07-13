@@ -1,0 +1,138 @@
+
+
+<section class="about-banner relative" id="banners">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Payment
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<br/>
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org">
+    <h2>Details of Ticket</h2>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Departure Time</th>
+                        <th scope="col">Arrival ime</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Agency</th>
+                        <th scope="col">Plane</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Free seats</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${flight.getFromLocation()}"></td>
+                        <td th:text="${flight.getToLocation()}"></td>
+                        <td th:text="${flight.getDeparatureTime()}"></td>
+                        <td th:text="${flight.getArrival_time()}"></td>
+                        <td th:text="${flight.getDuration()}"></td>
+                        <td th:text="${flight.getAgency().getNameOfAgency()}"></td>
+                        <td th:text="${flight.getAirplane().getNameOfAirplane()}"></td>
+                        <td th:text="${flight.getPrice()}"></td>
+                        <td th:text="${flight.getTotal_seats()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <h2>Personal details</h2>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Number of Passport</th>
+                        <th scope="col">Number of Phone</th>
+                        <th scope="col">Class Type</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${reservation.getName()}"></td>
+                        <td th:text="${reservation.getSurname()}"></td>
+                        <td th:text="${reservation.getNumberOfPassport()}"></td>
+                        <td th:text="${reservation.getNumberOfPhone()}"></td>
+                        <td th:text="${reservation.getClassesType().name()}"></td>
+                        <td th:name="finalPrice" th:text="${price}"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <form method="POST" th:action="@{'/payment'}">
+
+        <div class="form-group">
+            <label for="fullname">Fullname</label>
+            <input type="text"
+                   class="col-lg-4 col-md-6 form-control"
+                   id="fullname"
+                   name="fullname"
+                   required
+                   placeholder="Enter your fullname">
+        </div>
+
+        <div class="form-group">
+            <label for="cardNumber">Credit card number</label>
+            <input type="number"
+                   class="col-lg-4 col-md-6 form-control"
+                   id="cardNumber"
+                   name="cardNumber"
+                   onfocusout="lengthRange(this,12,12)"
+
+                   required
+                   placeholder="Enter your card number">
+        </div>
+
+        <div class="form-group">
+            <label for="ccv2">CCV2</label>
+            <input type="password"
+                   class="col-lg-4 col-md-6 form-control"
+                   id="ccv2"
+                   name="ccv2"
+                   maxlength="3"
+                   oninput="maxLengthCheck(this) "
+                   required
+                   placeholder="Enter your CCV2">
+        </div>
+
+        <div >
+            <label>Validation of credit card</label>
+            <select name="monthfValid" id="monthfValid" onload="selectFirst()" required>
+                <option value="" SELECTED>Month</option>
+                <option th:each="month : ${monthValid}" th:value="${month}" th:text="${month}" ></option>
+            </select>
+
+            <select name="yearOfValid" id="yearOfValid" class="yearOfValidation" onload="selectFirst()" required>
+                <option value="" SELECTED>Year</option>
+                <option th:each="year : ${yearValid}" th:value="${year}" th:text="${year}" ></option>
+            </select>
+
+        </div>
+
+        <br/>
+        <button id="submit-from-add-balloon" type="submit" class="btn btn-primary" onclick="stringlength(document.cardNumber,12,12)">Submit</button>
+        <a type="button" class="btn btn-primary" href="javascript:history.back()">Back</a>
+    </form>
+</div>

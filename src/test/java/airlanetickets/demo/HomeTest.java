@@ -27,7 +27,7 @@ public class HomeTest {
 
     @Test
     public void testShowHome() throws Exception {
-        MockHttpServletRequestBuilder homeRequest = MockMvcRequestBuilders.post("/home");
+        MockHttpServletRequestBuilder homeRequest = MockMvcRequestBuilders.get("/home");
 
 
         this.mockMvc.perform(homeRequest)

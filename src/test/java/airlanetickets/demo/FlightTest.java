@@ -68,7 +68,7 @@ public class FlightTest {
                         .param("toSearch","Zurich"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("totalItems",Long.parseLong("1")))
+                .andExpect(model().attribute("totalItems",Long.parseLong("2")))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("flights"))
                 .andExpect(MockMvcResultMatchers.model().attribute("bodyContent","flights"))
                 .andExpect(view().name("master-template"));

@@ -44,7 +44,7 @@ public class ProfileTest {
     @Test
     public void testShowProfile() throws Exception {
         MockHttpServletRequestBuilder profileRequest = MockMvcRequestBuilders.get("/profile")
-                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN").password("admin"));
+                .with(SecurityMockMvcRequestPostProcessors.user("userTest").roles("USER").password("userTest"));
 
 
         this.mockMvc.perform(profileRequest)
@@ -52,6 +52,19 @@ public class ProfileTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("user"))
                 .andExpect(MockMvcResultMatchers.model().attribute("bodyContent","profile"))
+                .andExpect(view().name("master-template"));
+    }
+
+    @Test
+    public void testShowProfiless() throws Exception {
+        MockHttpServletRequestBuilder profileRequest = MockMvcRequestBuilders.get("/ticket-cart")
+                .with(SecurityMockMvcRequestPostProcessors.user("user").roles("USER").password("user"));
+
+
+        this.mockMvc.perform(profileRequest)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attribute("bodyContent","ticket-cart"))
                 .andExpect(view().name("master-template"));
     }
 
@@ -68,7 +81,7 @@ public class ProfileTest {
     @Test
     public void testShowProfileSettings() throws Exception {
         MockHttpServletRequestBuilder profileRequest = MockMvcRequestBuilders.get("/profile/settings")
-                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN").password("admin"));
+                .with(SecurityMockMvcRequestPostProcessors.user("userTest").roles("USER").password("userTest"));
 
 
         this.mockMvc.perform(profileRequest)

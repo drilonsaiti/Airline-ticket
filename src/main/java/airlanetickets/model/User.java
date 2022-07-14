@@ -85,4 +85,9 @@ public class User implements UserDetails, ThrowingRunnable {
     public void run() throws Throwable {
 
     }
+
+    @Override
+    public String toString() {
+        return "User{}";
+    }
 }

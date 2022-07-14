@@ -7,6 +7,7 @@ import airlanetickets.repository.UserRepository;
 import airlanetickets.service.AuthService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -53,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public Optional<User> findByUsername(String username) {
         return this.userRepository.findByUsername(username);
     }

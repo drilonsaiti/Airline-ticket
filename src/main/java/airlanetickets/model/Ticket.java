@@ -62,7 +62,10 @@ public class Ticket {
         this.orders.remove(order);
     }
 
-
+    @Override
+    public String toString() {
+        return "Ticket{}";
+    }
 }
 
 
